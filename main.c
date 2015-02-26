@@ -6,7 +6,7 @@
 /*   By: ngoguey <ngoguey@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/13 10:13:50 by ngoguey           #+#    #+#             */
-/*   Updated: 2015/02/26 06:54:10 by ngoguey          ###   ########.fr       */
+/*   Updated: 2015/02/26 07:19:46 by ngoguey          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,14 @@ char *files[DOUNTIL];
 	files[18] = "t18.txt"; // 
 	files[19] = "t19.txt"; // 
 
+/*
+
+2x gestion \0
+1x free
+1x protection mallocs
+
+*/
+	
 	int gnlret;
 	char *gnlstr;
 
@@ -125,9 +133,16 @@ char *files[DOUNTIL];
 				printf("GNLSTR:NULL");
 			else
 				ref_myputnchar(gnlstr, 100);
-			printf("} freeing:\n");			fflush(stdout);
-			
-			free(gnlstr);
+			printf("}");			fflush(stdout);
+
+			if (gnlret > 0)
+			{
+				printf("freeing:");            fflush(stdout);
+				free(gnlstr);
+			}
+			else
+				printf("NOT freeing:");
+			printf("\n");			fflush(stdout);
 			if (gnlret > 0)
 				post = NUMPOSTCALLS;
 		}
