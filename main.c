@@ -6,7 +6,7 @@
 /*   By: ngoguey <ngoguey@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/13 10:13:50 by ngoguey           #+#    #+#             */
-/*   Updated: 2014/11/20 08:12:36 by ngoguey          ###   ########.fr       */
+/*   Updated: 2015/02/26 06:54:10 by ngoguey          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,16 +77,6 @@ char *files[DOUNTIL];
 	files[18] = "t18.txt"; // 
 	files[19] = "t19.txt"; // 
 
-
-files[0] = "easy";
-files[1] = "empty_line_then_char";
-files[2] = "hello";
-files[3] = "long_line";
-files[4] = "long_line_three";
-files[5] = "long_lines_same_length";
-files[6] = "moulinetter";
-
-
 	int gnlret;
 	char *gnlstr;
 
@@ -98,7 +88,7 @@ files[6] = "moulinetter";
 	int j;
 
 	int post = NUMPOSTCALLS;
-
+	(void)post;
 
 
 	for (i = 0; i < DOUNTIL; i++)
@@ -108,6 +98,7 @@ files[6] = "moulinetter";
 			printf("openned[%s](%d)  ", files[i], fd[i]);
 		else
 			printf("couldnt open [%s](%d)  ", files[i], fd[i]);
+		printf("\n");
 	}
 	printf("\n");
 
@@ -115,17 +106,27 @@ files[6] = "moulinetter";
 #if RANDOM == 0 // DONT TOUCH
 	for (i = 0; i < DOUNTIL; i++)
 	{
-		if (fd[i] < 0)
-			continue ;
 		printf("\n");
+		/* if (fd[i] < 0) */
+			/* continue ; */
+
 		post = NUMPOSTCALLS;
 		do
 		{
-			gnlret = get_next_line(fd[i], &gnlstr);
-			printf("%2d%7s(%d)[len%2zu]{", fd[i], files[i], gnlret, strlen(gnlstr));
+			printf("%2d%7s Call:",
+				   fd[i], files[i]);
 			fflush(stdout);
-			ref_myputnchar(gnlstr, 100);
-			printf("}\n");
+
+			gnlret = get_next_line(fd[i], &gnlstr);
+			printf("(%d)[len%2zu]{",
+				  gnlret, gnlstr ? strlen(gnlstr) : 0);
+			fflush(stdout);
+			if (gnlstr == NULL)
+				printf("GNLSTR:NULL");
+			else
+				ref_myputnchar(gnlstr, 100);
+			printf("} freeing:\n");			fflush(stdout);
+			
 			free(gnlstr);
 			if (gnlret > 0)
 				post = NUMPOSTCALLS;
